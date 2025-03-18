@@ -17,11 +17,12 @@
     envExtra = ''
       export SOMEZSHVARIABLE="something"
     '';
+    oh-my-zsh.enable = true;
   };
+
 
   fonts.fontconfig.enable = true;
   home.packages = with pkgs;[
-    hello
     nerd-fonts.jetbrains-mono
     noto-fonts-color-emoji
     nerd-fonts.hack
@@ -37,6 +38,9 @@
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # # symlink to the Nix store copy.
     # ".screenrc".source = dotfiles/screenrc;
+    ".config/nvim" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos/config/nvim";
+    };
 
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
