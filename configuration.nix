@@ -109,18 +109,16 @@
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
+  # services.pulseaudio.enable = true;
+  # security.rtkit.enable = true;
+  # hardware.pulseaudio.enable = true;
+  # hardware.pulseaudio.support32Bit = true;
+
   services.pipewire = {
     enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
+    audio.enable = true;
     pulse.enable = true;
-    # If you want to use JACK applications, uncomment this jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default, no need to 
-    # redefine it in your config for now)
-    #media-session.enable = true;
+    jack.enable = true;
   };
 
   services.libinput.enable = true;
@@ -132,12 +130,14 @@
     extraGroups = [
       "networkmanager"
       "wheel"
+      "audio"
     ];
     packages = with pkgs; [
       #  thunderbird
       neovim
       dmenu
       alacritty
+      pavucontrol
     ];
   };
 
