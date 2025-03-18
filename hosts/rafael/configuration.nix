@@ -7,7 +7,7 @@
   imports = [
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.default
-    ./modules/custom-keyboard.nix
+    ../../modules/custom-keyboard.nix
   ];
 
 
@@ -73,6 +73,7 @@
     };
   };
 
+  programs.zsh.enable = true;
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = false;
   services.xserver.desktopManager.gnome.enable = false;
@@ -112,6 +113,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.rafael = {
     isNormalUser = true;
+    shell = pkgs.zsh;
     description = "Rafael";
     extraGroups = [
       "networkmanager"

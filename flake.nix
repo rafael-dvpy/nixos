@@ -25,16 +25,16 @@
         inherit pkgs;
 
         modules = [
-          ./home.nix
+          ./hosts/rafael/home.nix
         ];
 
       };
 
       nixosConfigurations = {
-        myNixos = nixpkgs.lib.nixosSystem {
+        rafael = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs system; };
           modules = [
-            ./configuration.nix
+            ./hosts/rafael/configuration.nix
           ];
         };
       };
@@ -42,11 +42,11 @@
       devShells.${system}.rust =
         pkgs.mkShell
           {
-            buildInputs = [
-              pkgs.neovim
-              pkgs.rustc
-              pkgs.cargo
-              pkgs.libgcc
+            buildInputs = with pkgs; [
+              neovim
+              rustc
+              cargo
+              libgcc
             ];
           };
     };
