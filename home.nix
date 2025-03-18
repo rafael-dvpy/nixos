@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   home.username = "rafael";
@@ -20,7 +20,6 @@
     oh-my-zsh.enable = true;
   };
 
-
   fonts.fontconfig.enable = true;
   home.packages = with pkgs;[
     nerd-fonts.jetbrains-mono
@@ -33,6 +32,15 @@
     xclip
   ];
 
+  #  xsession.windowManager.bspwm.enable = true;
+  #  xsession.windowManager.bspwm.extraConfig = ''
+  #    source ${config.home.homeDirectory}/nixos/config/bspwm/bspwmrc
+  #  '';
+  #  services.sxhkd.enable = true;
+  #  services.sxhkd.extraConfig = ''
+  #    source ${config.home.homeDirectory}/nixos/config/sxhkd/sxhkdrc
+  #  '';
+
   home.file = {
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
@@ -41,13 +49,19 @@
     ".config/nvim" = {
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos/config/nvim";
     };
-
+    ".config/bspwm" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos/config/bspwm";
+    };
+    ".config/sxhkd" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos/config/sxhkd";
+    };
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
     #   org.gradle.console=verbose
     #   org.gradle.daemon.idletimeout=3600000
     # '';
   };
+
 
   home.sessionVariables = {
     EDITOR = "nvim";

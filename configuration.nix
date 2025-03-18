@@ -59,16 +59,48 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
+  services.xserver.autorun = false;
+  services.xserver.displayManager.startx.enable = true;
+  services.xserver.windowManager.bspwm = {
+    enable = true;
+    configFile = "/home/rafael/.config/bspwm/bspwmrc";
+    sxhkd = {
+      configFile = "/home/rafael/.config/sxhkd/sxhkdrc";
+    };
+  };
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.displayManager.gdm.enable = false;
+  services.xserver.desktopManager.gnome.enable = false;
 
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "br";
     variant = "";
   };
+
+  services.xserver.xkb.extraLayouts.custom-ctrl-esc = {
+    description = "Custom layout with Right Ctrl and Caps Lock remapped";
+    languages = [ "br" ];
+    symbolsFile = pkgs.writeText "xkb-custom-ctrl-esc" ''
+      xkb_symbols "custom-ctrl-esc" {
+        keycode 105 = equal plus F12  // Ctrl Direito vira =, + (Shift) e F12 (Fn)
+        keycode 66  = Escape          // Caps Lock vira Esc
+      };
+    '';
+  };
+
+  # services.xserver.displayManager.sessionCommands =
+  #   ${pkgs.xorg.xmodmap}/bin/xmodmap "${pkgs.writeText  "xkb-layout" ''
+  #   ! Make Right Control work as:
+  #   ! - "=" when pressed alone
+  #   ! - "+" when pressed with Shift
+  #   ! - "F12" when pressed with Fn (ISO_Level3_Shift)
+  #   keycode 105 = equal plus F12
+
+  #   ! Remap Caps Lock to Escape
+  #   keycode 66 = Escape
+  # ''}";
 
   # Configure console keymap
   console.keyMap = "br-abnt2";
@@ -104,6 +136,8 @@
     packages = with pkgs; [
       #  thunderbird
       neovim
+      dmenu
+      alacritty
     ];
   };
 
@@ -115,6 +149,7 @@
 
   # List packages installed in system profile. To search, run: $ nix search wget
   environment.systemPackages = with pkgs; [
+    sxhkd
     home-manager
     #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by 
     #  default. wget
