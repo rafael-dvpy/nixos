@@ -1,29 +1,21 @@
-{ config, lib, pkgs, ... }:
-
-with lib;
+{ config, pkgs, lib, ... }:
 
 let
-  keyboardLayout = pkgs.writeText "xkb-custom-layout" ''
-    ! Make Right Control work as:
-    ! - "=" when pressed alone
-    ! - "+" when pressed with Shift
-    ! - "F12" when pressed with Fn (ISO_Level3_Shift)
-    keycode 105 = equal plus F12
-
-    ! Remap Caps Lock to Escape
-    keycode 66 = Escape
+  # Defina o layout do teclado personalizado
+  customLayout = pkgs.writeText "xkb-custom-layout" ''
+    xkb_symbols "custom-ctrl-esc" {
+      keycode 105 = equal plus F12  // Ctrl Direito vira =, + (Shift) e F12 (Fn)
+      keycode 66  = Escape          // Caps Lock vira Esc
+    };
   '';
 in
 {
-  options.customKeyboard.enable = mkOption {
-    type = types.bool;
-    default = false;
-    description = "Enable custom Caps Lock and Right Control key mapping.";
+  options = {
+    custom-keyboard.enable = lib.mkEnableOption "Enable custom keyboard layout and remapping";
   };
 
-  config = mkIf config.customKeyboard.enable {
-    services.xserver.displayManager.sessionCommands = ''
-      ${pkgs.xorg.xmodmap}/bin/xmodmap ${keyboardLayout}
-    '';
+  config = lib.mkIf config.custom-keyboard.enable {
+    services.xserver.displayManager.sessionCommands = ''sleep 5 && ${pkgs.xorg.xmodmap}/bin/xmodmap -e "${customLayout}"'';
   };
 }
+

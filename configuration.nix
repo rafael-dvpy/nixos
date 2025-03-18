@@ -1,13 +1,17 @@
 # Edit this configuration file to define what should be installed on your system.  Help is available in the 
 # configuration.nix(5) man page and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, inputs, ... }:
 
+# Gerar o arquivo de layout personalizado com a modificação
 {
   imports = [
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.default
+    ./modules/custom-keyboard.nix
   ];
+
+
+  custom-keyboard.enable = true;
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
@@ -90,29 +94,11 @@
     '';
   };
 
-  # services.xserver.displayManager.sessionCommands =
-  #   ${pkgs.xorg.xmodmap}/bin/xmodmap "${pkgs.writeText  "xkb-layout" ''
-  #   ! Make Right Control work as:
-  #   ! - "=" when pressed alone
-  #   ! - "+" when pressed with Shift
-  #   ! - "F12" when pressed with Fn (ISO_Level3_Shift)
-  #   keycode 105 = equal plus F12
-
-  #   ! Remap Caps Lock to Escape
-  #   keycode 66 = Escape
-  # ''}";
-
   # Configure console keymap
   console.keyMap = "br-abnt2";
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
-
-  # Enable sound with pipewire.
-  # services.pulseaudio.enable = true;
-  # security.rtkit.enable = true;
-  # hardware.pulseaudio.enable = true;
-  # hardware.pulseaudio.support32Bit = true;
 
   services.pipewire = {
     enable = true;
@@ -138,6 +124,7 @@
       dmenu
       alacritty
       pavucontrol
+      xorg.xmodmap
     ];
   };
 

@@ -55,6 +55,9 @@
     ".config/sxhkd" = {
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos/config/sxhkd";
     };
+    ".xinitrc" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos/config/.xinitrc";
+    };
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
     #   org.gradle.console=verbose
