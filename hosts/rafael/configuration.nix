@@ -84,16 +84,17 @@
     variant = "";
   };
 
-  services.xserver.xkb.extraLayouts.custom-ctrl-esc = {
-    description = "Custom layout with Right Ctrl and Caps Lock remapped";
-    languages = [ "br" ];
-    symbolsFile = pkgs.writeText "xkb-custom-ctrl-esc" ''
-      xkb_symbols "custom-ctrl-esc" {
-        keycode 105 = equal plus F12  // Ctrl Direito vira =, + (Shift) e F12 (Fn)
-        keycode 66  = Escape          // Caps Lock vira Esc
-      };
-    '';
-  };
+  # services.xserver.xkb.extraLayouts.custom-ctrl-esc = {
+  #   description = "Custom layout with Right Ctrl and Caps Lock remapped";
+  #   languages = [ "br" ];
+  #   symbolsFile = pkgs.writeText "xkb-custom-ctrl-esc" ''
+  #     xkb_symbols "custom-ctrl-esc" {
+  #       keycode 105 = equal plus F12  // Ctrl Direito vira =, + (Shift) e F12 (Fn)
+  #       keycode 66  = Escape          // Caps Lock vira Esc
+  #       keycode 66  = Escape          // Caps Lock vira Esc
+  #     };
+  #   '';
+  # };
 
   # Configure console keymap
   console.keyMap = "br-abnt2";
@@ -140,8 +141,7 @@
   environment.systemPackages = with pkgs; [
     sxhkd
     home-manager
-    #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by 
-    #  default. wget
+    feh
   ];
 
   # Some programs need SUID wrappers, can be configured further or are started in user sessions. 

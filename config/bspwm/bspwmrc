@@ -2,6 +2,7 @@
 
 pgrep -x sxhkd > /dev/null || sxhkd &
 ~/nixos/scripts/xmodmap.sh &
+feh --bg-scale $HOME/Pictures/wallpaper.png &
 
 bspc monitor -d I II III IV V VI VII VIII IX X
 
